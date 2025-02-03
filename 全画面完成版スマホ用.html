@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>化学式シューティングゲーム</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      height: 100vh;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .text {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .text-fall {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);/*ココを100にすれば全画面*/
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        top: 10%;    }
+
+    .text-rise {
+        font-size: 48px; /* 文字を大きく */
+        font-weight: bold;
+        color: #333;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 10%; /* 🔴 初期位置を設定 */
+        /* display: none; 初期状態では非表示 */
+    }
+
+    /* 上付き文字 (sup) のサイズも調整 */
+    .text-rise sup {
+        font-size: 36px; /* 通常の半分くらいのサイズに */
+    }
+    /* 下付き文字 (sub) のサイズも調整 */
+    .text-rise sub {
+        font-size: 36px; /* 通常の半分くらいのサイズに */
+    }
+
+    .fragment {
+        position: absolute;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        opacity: 0;
+        animation: scatter 1s forwards;
+    }
+    sup {
+          font-size: 16px;
+    }
+    
+    .timeout-message {
+        font-size: 48px; /* 文字を大きく */
+        font-weight: bold;
+        color: #fe0101;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 50%; /* 🔴 初期位置を設定 */
+        display: none;
+    }
+
+
+    #startButton {
+      position: absolute;
+      bottom: 50%;
+      right: 20px;
+      padding: 10px;
+      font-size: 12px;
+      background-color: #5374e1;
+      color: white;
+      border: none;
+      cursor: pointer;
+
+    }
+    #inputContainer {
+      position: absolute;
+      bottom: 50%;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      display: none; /* 最初は非表示 */
+    }
+    #customText {
+      margin-bottom: 10px;
+      padding: 5px;
+      font-size: 16px;
+    }
+    
+    #fireButton {
+        position: absolute;
+        bottom: 120%; /* 🔴 ボタンを少し上に移動 */
+        right: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    
+    #nextButton {
+        display: none;
+        position: absolute;
+        bottom: 58.3%; /* 🔴 ボタンを少し上に移動 */
+        right: 40px;
+        padding: 12px 22px;
+        font-size: 16px;
+        background-color: #5374e1;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    #timerDisplay {
+        position: absolute;
+        top: 50px;
+        right: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #d9534f; /* 赤色 */
+    }
+
+    #scoreDisplay {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .formatted-answer {
+    
+      font-size: 48px; /* 文字を大きく */
+        font-weight: bold;
+        color: #333;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 50%; /* 🔴 初期位置を設定←ココを10にすると全画面 */
+          }
+
+    .formatted-answer sup {
+        font-size: 36px; /* 通常の半分くらいのサイズに */
+    }
+  #lifeContainer {
+  position: absolute;
+  bottom: 70%; /* 🔴 発射ボタンの上に配置 */
+  right: 35px;
+  text-align: center;
+}
+
+#lifeLabel {
+  font-size: 18px;
+  font-weight: bold;
+  color: black; /*  "Life" の色 */
+  margin-bottom: 1px; /* "Life" と "♥♥♥" の間隔 */
+}
+
+#lifeDisplay {
+  font-size: 24px;
+  font-weight: bold;
+  color: red; /* 🔴 ハートを赤色 */
+}
+
+
+
+#gameOverMessage {
+  display: none; /* 🔴 初期状態では非表示 */
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  font-weight: bold;
+  color: red;
+  text-align: center;
+}
+
+#finalScore {
+  display: none;
+  position: absolute;
+  top: 50%; /* 🔴 「ゲーム終了」の下に配置 */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+}
+
+    
+    @keyframes rise {
+      0% {bottom: 0;}
+      100% {bottom: 100vh;}
+    }
+
+    @keyframes scatter {
+      0% {opacity: 1;transform: translate(0, 0);
+      }
+      100% {opacity: 0;transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px));
+      }
+    }
+ 
+  </style>
+
+</head>
+<body>
+  
+  <div class="container">
+    <div id="scoreDisplay">スコア: 0</div>
+    <button id="startButton">ゲーム開始</button>
+    <div class="text text-fall" id="fallingText">化学式シューティングゲーム</div>
+    <div id="timerDisplay">残り時間: 20秒</div>
+    <div id="timeout-message" class="timeout-message">時間切れ！</div>
+    <div class="text text-rise" id="risingText"><sup></sup></div>
+    <div id="formatted-answer" class="formatted-answer"></div>
+    <div id="lifeContainer">
+      <div id="lifeLabel">Life</div>
+      <div id="lifeDisplay">♥♥♥</div>
+    </div>
+    <div id="gameOverMessage">ゲーム終了</div>
+    <div id="finalScore"></div> <!--  最終スコアを表示するエリア -->
+    <div id="inputContainer">
+      <input type="text" id="customText" placeholder="発射する文字を入力">
+      <button id="fireButton">発射</button>
+    </div>
+    <button id="nextButton">次へ</button>
+  </div>
+
+  <audio id="fireSound" src="fire-sound.mp3" preload="auto"></audio>
+  <audio id="explosionSound" src="explosion-sound.mp3" preload="auto"></audio>
+  <audio id="timeOverSound" src="bubu-.mp3" preload="auto"></audio>
+
+<script>
+
+//定数の宣言
+    const totalFallSteps = 200;//落下ステップ数
+    const fallDuration = 20000;//落下時間
+    const fallStepDuration = fallDuration / totalFallSteps;//落下ステップ時間
+    const timeoutMessage = document.getElementById("timeout-message");
+    const fallingText = document.getElementById('fallingText');//落下文字
+    const risingText = document.getElementById('risingText');// 上昇文字
+    const fireButton = document.getElementById('fireButton');//発射ボタン
+    const customTextInput = document.getElementById('customText'); //カスタムテキスト
+    const fireSound = document.getElementById('fireSound');// 発射音
+    const nextButton = document.getElementById('nextButton');// 次のボタン
+    const explosionSound = document.getElementById('explosionSound');// 爆発音
+    const timeOverSound = document.getElementById('timeOverSound');// 時間切れ音
+    const correctFormula = document.getElementById('correctFormula');//正解
+    const startButton = document.getElementById("startButton");
+    const formattedAnswer = document.getElementById("formatted-answer");//フォーマットされた解答
+
+//クイズデータ
+    const quizData = [
+      { name: "水素原子", formula: "H" },
+      { name: "水素分子", formula: "H2_" },
+      { name: "水素イオン", formula: "H+^" },
+      { name: "ナトリウムイオン", formula: "Na+^" },
+      { name: "塩化物イオン", formula: "Cl-^" },
+      { name: "カルシウムイオン", formula: "Ca2^+^" }
+    ];
+
+    let currentQuestionIndex = 0;//現在の問題インデックス
+    let isFalling = true;//落下中かどうか
+    let fallInterval;//落下間隔
+    let fallStep = 0;//落下ステップ
+    const container = document.querySelector('.container');//コンテナ
+    let scatterCount = 0;
+    const maxScatterCount = 3;
+    let risingAnimation;//上昇アニメーション
+    fireButton.style.display = "none"; //発射ボタンを非表示
+    let score = 0; // スコアの初期化
+    let timeLeft = 20; // 制限時間（秒）
+    let timer; // タイマー変数
+    let timeOutCount = 0; // 時間切れの回数をカウント
+    let maxLives = 3; //  最大ライフ数
+
+//スタートボタンのクリックイベント  
+document.addEventListener("DOMContentLoaded", () => {// htmlやCSSを読み込んだら実行
+    const fireButton = document.getElementById("fireButton");
+    const fireSound = document.getElementById("fireSound");
+    const explosionSound = document.getElementById("explosionSound");
+
+  // 🔴 スマホで音が出るようにクリックイベントの中で再生
+  fireButton.addEventListener("click", () => {
+    fireSound.currentTime = 0; // 🔴 音をリセット
+    fireSound.play().catch(e => console.error("再生エラー:", e)); // 🔴 スマホ対応
+  });
+
+    startButton.addEventListener("click", () => {
+        startButton.style.display = "none"; // 開始ボタンを非表示
+        fireButton.style.display = "block"; //発射ボタンを表示
+        loadQuestion();//問題読み込み
+    });
+});
+
+//タイマー開始関数  
+function startTimer() {
+    timeoutMessage.style.display = "none"; // 「時間切れ」メッセージを非表示
+    timeLeft = 20; // 制限時間リセット
+    document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;
+    document.getElementById("timerDisplay").textContent = `残り時間: ${timeLeft}秒`; // 初期表示
+    // 毎秒カウントダウン
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timerDisplay").textContent = `残り時間: ${timeLeft}秒`; // 残り時間を更新
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            timeOverSound.play(); // 時間切れ音を再生
+            timeoutMessage.style.display = "block"; // 「時間切れ」メッセージを表示
+            timeoutMessage.textContent = "時間切れ！"; // 「時間切れ」と表示
+            timeOutCount++; // 時間切れカウントを増やす
+            nextButton.style.display = "block"; // 「次へ」ボタンを表示
+        }
+    }, 1000);
+}
+
+
+//クイズの読み込み関数
+function loadQuestion() {
+  //全ての問題を終了したら終了を表示
+    if (currentQuestionIndex >= quizData.length) {
+    //  全問終了時に「ゲーム終了」メッセージを表示
+      endGame(); // すでにライフがゼロならゲーム終了
+    return; // 以降の処理を実行しない
+    }
+    if (timeOutCount >= maxLives) {
+      updateLifeDisplay()  
+      endGame(); // すでにライフがゼロならゲーム終了
+    return;
+    }
+    document.getElementById("inputContainer").style.display = "flex";
+      const question = quizData[currentQuestionIndex];//問題取得
+      fallingText.textContent = question.name;//  落下文字に問題名を設定
+      fallingText.style.display = "block";//落下文字を表示
+      nextButton.style.display = "none";//次のボタンを非表示
+      fallStep = 0;
+      isFalling = true;//落下中   
+      risingText.style.display = 'block';//  上昇文字を表示
+      formattedAnswer.innerHTML  = ""; //  解答をリセット
+      risingText.innerHTML = ""; // 上昇文字をリセット
+      customTextInput.value = ""; // 入力欄をリセット
+      risingText.style.bottom = "50%"; // 位置を画面下端にリセット
+      customTextInput.focus();// 入力欄にフォーカス
+      // タイマーをリセット
+      clearInterval(timer); // タイマーをリセット
+        document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;
+    // `fragment` クラスの不要な文字を削除（前回の散乱をリセット）
+        document.querySelectorAll(".fragment").forEach((el) => el.remove());
+      startTimer(); //タイマー開始
+      updateLifeDisplay(); // ライフを更新
+      moveFallingText();//落下文字移動
+    }
+   
+
+//文字を落下させる関数        
+  function moveFallingText() {
+      if (fallStep <= totalFallSteps && isFalling) {//落下ステップが最大ステップ以下かつ落下中の場合
+        const percentage = (fallStep / totalFallSteps) * 50;//パーセンテージ計算←ココを100にすると全画面
+        fallingText.style.top = `calc(${percentage}vh)`;//落下文字の位置を設定
+        checkCollision();//衝突確認
+        // 落下文字が画面下端に到達したら「時間切れ」
+        const fallingRect = fallingText.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        if (fallingRect.bottom >= windowHeight) {
+            isFalling = false; // 落下を停止
+            clearInterval(timer); // タイマー停止
+            timeOutCount++; // 時間切れカウントを増やす
+            updateLifeDisplay(); // ライフを更新
+      console.log(`時間切れ回数: ${timeOutCount}`);
+
+      if (timeOutCount >= 3) {
+        endGame(); // 3回時間切れならゲーム終了
+        return;
+      }
+      nextButton.style.display = "block"; // 「次へ」ボタンを表示
+        } else {
+            fallStep++;
+            setTimeout(moveFallingText, fallStepDuration);
+        }
+      }
+  }
+  
+//衝突検知関数
+    function checkCollision() {
+      const fallingRect = fallingText.getBoundingClientRect();//  落下文字の矩形を取得
+      const risingRect = risingText.getBoundingClientRect();//  上昇文字の矩形を取得
+      if (
+        fallingRect.bottom >= risingRect.top &&// 落下文字の下端が上昇文字の上端より大きいか
+        fallingRect.top <= risingRect.bottom &&// 落下文字の上端が上昇文字の下端より小さいか
+        fallingRect.left <= risingRect.right &&// 落下文字の左端が上昇文字の右端より小さいか
+        fallingRect.right >= risingRect.left// 落下文字の右端が上昇文字の左端より大きいか
+      ) {
+        customTextInput.focus();// 入力欄にフォーカス
+        checkAnswer(customTextInput,fallingRect)
+        customTextInput.value = ""; // 入力欄をリセット
+        }
+    }
+
+//　答え合わせ関数
+  function checkAnswer(inputText,fallingRect) {
+      const correctAnswer = quizData[currentQuestionIndex].formula;//  正解の取得
+      const kaitou =inputText.value
+      if (kaitou === correctAnswer) {//  入力値が正解の場合
+          clearInterval(timer); //　タイマー停止
+          explosionSound.play();//爆発音再生
+          score += timeLeft; //  残り時間をスコアに加算
+          document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;
+          scatterText(fallingRect);//  散乱文字
+      } else {
+       
+      }
+  }
+
+//　文字バラバラ関数
+  function scatterText(collisionRect) {
+    const text = fallingText.textContent;
+    fallingText.style.display = 'none';
+    isFalling = false;
+        const fragmentCount = text.length;
+        const centerX = collisionRect.left + collisionRect.width / 2;
+        const centerY = collisionRect.top + collisionRect.height / 2;
+
+        for (let i = 0; i < fragmentCount; i++) {
+            const char = text[i];
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.className = 'fragment';
+            span.style.setProperty('--x', Math.random() * 200 - 100);
+            span.style.setProperty('--y', Math.random() * 200 - 100);
+            span.style.left = `${centerX}px`;
+            span.style.top = `${centerY}px`;
+            container.appendChild(span);
+        }
+    risingText.style.display = 'block';//}, 1000);
+    nextButton.style.display = "block";
+}
+
+//上昇文字を更新    
+    function updateRisingText() {//上昇文字の更新
+      const input = customTextInput.value;//  入力値
+      let formattedText = '';// フォーマット済みテキスト
+      risingText.style.display = "block"; // 変換文字を表示 
+
+      for (let i = 0; i < input.length; i++) {//  入力文字数分繰り返し
+        if (input[i] === '^' && i > 0) {//  文字が^かつインデックスが0より大きい場合
+          formattedText =
+            formattedText.slice(0, -1) +
+            `<sup>${formattedText.slice(-1)}</sup>`;//  フォーマット済みテキストを更新
+          } else if (input[i] === "_" && i > 0) {// _の前の文字を下付きに
+            formattedText =
+            formattedText.slice(0, -1) +
+            `<sub>${formattedText.slice(-1)}</sub>`;//  フォーマット済みテキストを更新
+          } else {
+          formattedText += input[i];
+        }
+      }
+      risingText.style.display = 'block';//  上昇文字を表示
+      risingText.style.bottom = "50%"; // 必要に応じて調整 ←ココを10にすると全画面
+      formattedAnswer.innerHTML  = formattedText|| '<sup></sup>';
+      risingText.innerHTML = formattedText || '<sup></sup>';
+      // デバッグ用　console.log("ココを通りました： ",risingText.innerHTML); 
+    }
+
+//　文字発射関数  
+    function fireCustomText() {//カスタムテキスト発射
+        fireSound.currentTime = 0; // 🔴 音をリセット
+        fireSound.play().catch(e => console.error("再生エラー:", e)); // 🔴 スマホ対応
+    
+        risingText.style.display = 'block';//  上昇文字を表示
+      const inputText = customTextInput.value; // 入力値を取得
+      risingAnimation = risingText.animate(//  上昇アニメーション
+        [
+          { transform: 'translateY(0) translateX(-50%)' },//  変換
+          { transform: 'translateY(-50vh) translateX(-50%)' }//  上昇範囲を 50% に制限,先頭の-50を－100にすれば全画面
+        ],
+        {
+          duration: 2000,//  持続時間
+          iterations: 1,//  繰り返し回数
+          fill: 'forwards'//  終了時の状態を保持
+        }
+      );
+        risingAnimation.onfinish = () => {//  上昇アニメーション終了時
+      };
+    }
+
+// ライフ表示を更新
+function updateLifeDisplay() {
+  const lifeDisplay = document.getElementById("lifeDisplay");
+  let lives = "♥".repeat(maxLives - timeOutCount); // 残りライフを表示
+  lifeDisplay.textContent = lives || "GAME OVER"; // 0なら "GAME OVER" 表示
+}
+
+// ゲーム終了メッセージを表示
+function endGame() {
+    timeoutMessage.style.display = "none"; // 「時間切れ」メッセージを非表示
+    document.getElementById("gameOverMessage").style.display = "block";
+  //  スコアを表示
+    const finalScore = document.getElementById("finalScore");
+    finalScore.textContent = `最終スコア: ${score}`;
+    finalScore.style.display = "block";
+  // クイズ要素を非表示
+    document.getElementById("fallingText").style.display = "none";
+    document.getElementById("risingText").style.display = "none";
+    document.getElementById("inputContainer").style.display = "none";
+    document.getElementById("nextButton").style.display = "none";
+  // タイマーを完全に停止
+    clearInterval(timer);
+}
+
+//  カスタムテキスト入力時に上昇文字を更新    
+    customTextInput.addEventListener('input', updateRisingText);
+
+//  発射ボタンクリック時にカスタムテキスト発射    
+    fireButton.addEventListener('click', fireCustomText);
+
+//  次へのボタンクリック時 
+    nextButton.addEventListener('click', () => {
+        nextButton.addEventListener("click", () => {
+            explosionSound.currentTime = 0; 
+            explosionSound.play().catch(e => console.error("再生エラー:", e)); 
+        });
+        
+        timeLeft = 20; // 制限時間リセット
+        customTextInput.focus();
+        //  現在の問題インデックスを更新
+        currentQuestionIndex++;
+        const totalFallSteps = 200;//落下ステップ数
+        const fallDuration = 20000;//落下時間
+        if (currentQuestionIndex < quizData.length) {
+          loadQuestion(); //次の問題をロード
+        } else {
+        endGame()
+        }
+    });
+
+
+</script>
+</body>
+</html>
