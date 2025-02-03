@@ -30,6 +30,13 @@
     }
     
     .text-fall {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);/*ココを100にすれば全画面*/
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
       top: 10%;
     }
 
@@ -40,8 +47,7 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 10%; /* 🔴 初期位置を設定 */
-        /* display: none; 初期状態では非表示 */
+        bottom: 0%; /* 初期位置を設定 */
     }
 
     /* 上付き文字 (sup) のサイズも調整 */
@@ -72,32 +78,33 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 50%; /* 🔴 初期位置を設定 */
+        bottom: 75%; /* 初期位置を設定 */
         display: none;
     }
 
 
     #startButton {
       position: absolute;
-      bottom: 50%;
-      right: 20px;
+      bottom: 45%;
+      right: 40%;
       padding: 10px;
       font-size: 12px;
       background-color: #5374e1;
       color: white;
       border: none;
       cursor: pointer;
-
     }
+
     #inputContainer {
       position: absolute;
-      bottom: 50%;
-      right: 20px;
+      bottom: 35%;
+      right: 40%;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       display: none; /* 最初は非表示 */
     }
+
     #customText {
       margin-bottom: 10px;
       padding: 5px;
@@ -106,8 +113,8 @@
     
     #fireButton {
         position: absolute;
-        bottom: 120%; /* 🔴 ボタンを少し上に移動 */
-        right: 20px;
+        bottom: 117%; /* ボタンを少し上に移動 */
+        right: 10px;
         padding: 10px 20px;
         font-size: 16px;
         background-color: #4CAF50;
@@ -120,19 +127,20 @@
     #nextButton {
         display: none;
         position: absolute;
-        bottom: 58.3%; /* 🔴 ボタンを少し上に移動 */
-        right: 40px;
-        padding: 10px 20px;
+        bottom: 43.2%; /* ボタンを少し上に移動 */
+        right: 40.8%;
+        padding: 15px 30px;/* ボタンのサイズ */
         font-size: 16px;
         background-color: #5374e1;
         color: white;
         border: none;
         cursor: pointer;
     }
+
     #timerDisplay {
         position: absolute;
-        top: 50px;
-        right: 20px;
+        top: 63%;
+        right: 38%;
         font-size: 18px;
         font-weight: bold;
         color: #d9534f; /* 赤色 */
@@ -140,31 +148,31 @@
 
     #scoreDisplay {
         position: absolute;
-        top: 20px;
-        right: 20px;
+        top: 63%;
+        right: 50%;
         font-size: 20px;
         font-weight: bold;
         color: #333;
     }
 
     .formatted-answer {
-    
-      font-size: 48px; /* 文字を大きく */
+        font-size: 48px; /* 文字を大きく */
         font-weight: bold;
         color: #333;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 10%; /* 🔴 初期位置を設定 */
+        bottom: 50%; /* 初期位置を設定 */
           }
 
     .formatted-answer sup {
         font-size: 36px; /* 通常の半分くらいのサイズに */
     }
-  #lifeContainer {
+
+    #lifeContainer {
   position: absolute;
-  bottom: 70%; /* 🔴 発射ボタンの上に配置 */
-  right: 35px;
+  bottom: 20%; /* 発射ボタンの上に配置 */
+  right: 50%;
   text-align: center;
 }
 
@@ -172,21 +180,21 @@
   font-size: 18px;
   font-weight: bold;
   color: black; /*  "Life" の色 */
-  margin-bottom: 1px; /* "Life" と "♥♥♥" の間隔 */
+  /*margin-bottom: 1px;  "Life" と "♥♥♥" の間隔 */
 }
 
 #lifeDisplay {
   font-size: 24px;
   font-weight: bold;
-  color: red; /* 🔴 ハートを赤色 */
+  color: red; /* ハートを赤色 */
 }
 
 
 
 #gameOverMessage {
-  display: none; /* 🔴 初期状態では非表示 */
+  display: none; /* 初期状態では非表示 */
   position: absolute;
-  top: 40%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 36px;
@@ -198,7 +206,7 @@
 #finalScore {
   display: none;
   position: absolute;
-  top: 50%; /* 🔴 「ゲーム終了」の下に配置 */
+  top: 30%; /* ゲーム終了」の下に配置 */
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 28px;
@@ -268,17 +276,9 @@
     const correctFormula = document.getElementById('correctFormula');//正解
     const startButton = document.getElementById("startButton");
     const formattedAnswer = document.getElementById("formatted-answer");//フォーマットされた解答
-
+    const hanniJouge =50;
 //クイズデータ
-    const quizData = [
-      { name: "水素原子", formula: "H" },
-      { name: "水素分子", formula: "H2_" },
-      { name: "水素イオン", formula: "H+^" },
-      { name: "ナトリウムイオン", formula: "Na+^" },
-      { name: "塩化物イオン", formula: "Cl-^" },
-      { name: "カルシウムイオン", formula: "Ca2^+^" }
-    ];
-
+    let quizData = []; // 🔴 読み込んだ問題を格納する配列
     let currentQuestionIndex = 0;//現在の問題インデックス
     let isFalling = true;//落下中かどうか
     let fallInterval;//落下間隔
@@ -296,13 +296,33 @@
 
 //スタートボタンのクリックイベント  
 document.addEventListener("DOMContentLoaded", () => {// htmlやCSSを読み込んだら実行
+    
     startButton.addEventListener("click", () => {
         startButton.style.display = "none"; // 開始ボタンを非表示
         fireButton.style.display = "block"; //発射ボタンを表示
+        loadQuizData(); // 🔴 ページ読み込み時に問題を取得
         loadQuestion();//問題読み込み
     });
 });
 
+function loadQuizData() {
+  fetch("mondai.txt", { headers: { "Content-Type": "text/plain; charset=utf-8" } }) // 🔴 UTF-8 を指定
+    .then(response => response.text())
+    .then(text => {
+      quizData = text.trim().split("\n").map(line => {
+        const parts = line.split(",");
+        if (parts.length !== 2) {
+          console.error("問題のフォーマットが正しくありません:", line);
+          return null;
+        }
+        return { name: parts[0].trim(), formula: parts[1].trim() };
+      }).filter(Boolean);
+
+      console.log("問題データ:", quizData); // 🔴 デバッグ用
+      loadQuestion(); // 🔴 問題データを取得した後にクイズ開始
+    })
+    .catch(error => console.error("問題データの読み込みに失敗:", error));
+}
 //タイマー開始関数  
 function startTimer() {
     timeoutMessage.style.display = "none"; // 「時間切れ」メッセージを非表示
@@ -315,6 +335,7 @@ function startTimer() {
         document.getElementById("timerDisplay").textContent = `残り時間: ${timeLeft}秒`; // 残り時間を更新
         if (timeLeft <= 0) {
             clearInterval(timer);
+            timeOutCount++;
             timeOverSound.play(); // 時間切れ音を再生
             timeoutMessage.style.display = "block"; // 「時間切れ」メッセージを表示
             timeoutMessage.textContent = "時間切れ！"; // 「時間切れ」と表示
@@ -326,13 +347,20 @@ function startTimer() {
 
 //クイズの読み込み関数
 function loadQuestion() {
+    if (quizData.length === 0) {
+    console.error("問題データがありません");
+    return;
+    }
+
+    
   //全ての問題を終了したら終了を表示
     if (currentQuestionIndex >= quizData.length) {
     //  全問終了時に「ゲーム終了」メッセージを表示
-      endGame(); // すでにライフがゼロならゲーム終了
+      endGame(); 
     return; // 以降の処理を実行しない
     }
     if (timeOutCount >= maxLives) {
+      updateLifeDisplay() ;
       endGame(); // すでにライフがゼロならゲーム終了
     return;
     }
@@ -347,7 +375,7 @@ function loadQuestion() {
       formattedAnswer.innerHTML  = ""; //  解答をリセット
       risingText.innerHTML = ""; // 上昇文字をリセット
       customTextInput.value = ""; // 入力欄をリセット
-      risingText.style.bottom = "10%"; // 位置を画面下端にリセット
+      risingText.style.bottom = "50%"; // 位置を画面下端にリセット
       customTextInput.focus();// 入力欄にフォーカス
       // タイマーをリセット
       clearInterval(timer); // タイマーをリセット
@@ -363,7 +391,7 @@ function loadQuestion() {
 //文字を落下させる関数        
   function moveFallingText() {
       if (fallStep <= totalFallSteps && isFalling) {//落下ステップが最大ステップ以下かつ落下中の場合
-        const percentage = (fallStep / totalFallSteps) * 100;//パーセンテージ計算
+        const percentage = (fallStep / totalFallSteps) * hanniJouge;//パーセンテージ計算(画面の上半分で文字を動かすから50)
         fallingText.style.top = `calc(${percentage}vh)`;//落下文字の位置を設定
         checkCollision();//衝突確認
         // 落下文字が画面下端に到達したら「時間切れ」
@@ -463,7 +491,7 @@ function loadQuestion() {
         }
       }
       risingText.style.display = 'block';//  上昇文字を表示
-      risingText.style.bottom = "10%"; // 必要に応じて調整 
+      risingText.style.bottom = "50%"; // 必要に応じて調整 
       formattedAnswer.innerHTML  = formattedText|| '<sup></sup>';
       risingText.innerHTML = formattedText || '<sup></sup>';
       // デバッグ用　console.log("ココを通りました： ",risingText.innerHTML); 
@@ -477,7 +505,7 @@ function loadQuestion() {
       risingAnimation = risingText.animate(//  上昇アニメーション
         [
           { transform: 'translateY(0) translateX(-50%)' },//  変換
-          { transform: 'translateY(-100vh) translateX(-50%)' }//  変換
+          { transform: 'translateY(-50vh) translateX(-50%)' }//  上昇範囲を 50% に制限,先頭の-50を－100にすれば全画面
         ],
         {
           duration: 2000,//  持続時間
