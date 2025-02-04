@@ -36,7 +36,7 @@
         top: 0;
         left: 50%;
         transform: translateX(-50%);/*ココを100にすれば全画面*/
-        font-size: 18px;
+        font-size: 24px;
         font-weight: bold;
         color: #333;
         top: 10%;    }
@@ -85,19 +85,6 @@
     }
 
 
-    #startButton {
-      position: absolute;
-      top: 25%;
-      left: 50%;
-      padding: 10px;
-      font-size: 40px;
-      background-color: #5374e1;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 8px;
-
-    }
     #inputContainer {
       position: absolute;
       top: 45%;
@@ -150,7 +137,7 @@
     }
     #timerDisplay {
         position: absolute;
-        top: 5%;
+        top: 4%;
         right: 1%;
         font-size: 14px;
         font-weight: bold;
@@ -240,6 +227,46 @@
   cursor: pointer;
   border-radius: 8px;
 }
+#gameIntro {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  border-radius: 10px;
+  pointer-events: auto; /* クリックを許可 */
+  z-index: 1000; /* 他の要素より前面に表示 */
+}
+
+#gameIntro h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+#gameIntro ul {
+  text-align: left;
+  padding-left: 20px;
+}
+
+#startButton {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  position: relative; /* または absolute */
+  z-index: 1001;
+  pointer-events: auto; /* 🔴 クリックを許可 */
+}
+
 
     
     @keyframes rise {
@@ -260,12 +287,28 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <body>
-  
+  <!-- ゲームの説明 -->
+  <div id="gameIntro">
+    <h1>化学式シューティングゲーム</h1>
+    <h1>(スマホ版)</h1>
+    <p>ルール</p>
+    <ul>
+      <li>画面上から落ちてくる問題を撃ち落とそう！</li>
+      <li>正しい化学式を入力し、「発射」ボタンを押す</li>
+      <li>化学式は，半角で入力，上付き，下付も判別</li>
+      <li>^を入力すると1文字前のみ上付き</li>
+      <li>_を入力すると1文字前のみ下付きになる</li>
+      <li>正解なら爆発！ 不正解なら通過！</li>
+      <li>3回ミスするとゲームオーバー</li>
+    </ul>
+    <button id="startButton">ゲーム開始</button>
+  </div>
+
   <div class="container">
     <div id="highScoreDisplay">High Score: 0</div>
     <div id="scoreDisplay">スコア: 0</div>
-    <button id="startButton">開始</button>
-    <div class="text text-fall" id="fallingText">化学式シューティングゲーム</div>
+
+    <div class="text text-fall" id="fallingText"></div>
     <div id="timerDisplay">残時間: 20秒</div>
     <div id="timeout-message" class="timeout-message">時間切れ！</div>
     <div class="text text-rise" id="risingText"><sup></sup></div>
@@ -290,6 +333,18 @@
 
 <script>
 
+//クイズデータ
+const quizData = [
+      { name: "水素原子", formula: "H" },
+      { name: "水素分子", formula: "H2_" },
+      { name: "水素イオン", formula: "H+^" },
+      { name: "水酸化物イオン", formula: "OH-^" },
+      { name: "カルシウムイオン", formula: "Ca2^+^" },
+      { name: "水素分子2個", formula: "2H2_" },
+      { name: "硫酸イオン", formula: "SO4_2^-^" },
+      { name: "二クロム酸イオン", formula: "Cr2_O7_2^-^" },
+    ];
+
 //定数の宣言
     const totalFallSteps = 200;//落下ステップ数
     const fallDuration = 20000;//落下時間
@@ -310,13 +365,6 @@
     const maxRiseHeight = -50; // 🔴 最大上昇範囲を -50% に制限（上方向に動く文字が突き抜ける）
     //🔴formattedAnswerの位置はCSSで
     //🔴risingText.style.bottom = "55%"; で発射文字の下端を設定
-
-//クイズデータ
-    const quizData = [
-      { name: "水素原子", formula: "H" },
-      { name: "水素分子", formula: "H2_" },
-      { name: "水素イオン", formula: "H+^" },
-    ];
 
     let currentQuestionIndex = 0;//現在の問題インデックス
     let isFalling = true;//落下中かどうか
@@ -339,54 +387,53 @@
 
 //スタートボタンのクリックイベント  
 document.addEventListener("DOMContentLoaded", () => {// htmlやCSSを読み込んだら実行
-
-  const fireButton = document.getElementById("fireButton");
+    const startButton = document.getElementById("startButton");
+    const gameIntro = document.getElementById("gameIntro");
+    const fireButton = document.getElementById("fireButton");
     const fireSound = document.getElementById("fireSound");
     const explosionSound = document.getElementById("explosionSound");
-
-  // スマホで音が出るようにクリックイベントの中で再生
-    fireButton.addEventListener("click", () => {
-        fireSound.currentTime = 0; // 音をリセット
-        fireSound.play().catch(e => console.error("再生エラー:", e)); // スマホ対応
-    });
-
+    //スタートボタンクリック時の動作
     startButton.addEventListener("click", () => {
+        gameIntro.style.display = "none"; // 説明を非表示  
         startButton.style.display = "none"; // 開始ボタンを非表示
         fireButton.style.display = "block"; //発射ボタンを表示
         loadQuestion();//問題読み込み
     });
+    // スマホで音が出るようにクリックイベントの中で再生
+    fireButton.addEventListener("click", () => {
+        fireSound.currentTime = 0; // 音をリセット
+        fireSound.play().catch(e => console.error("再生エラー:", e)); // スマホ対応
+    });
 });
 
+//ゲーム再開関数
 function restartGame() {
-  score = 0; //  スコアをリセット
-  timeOutCount = 0; //  ライフをリセット
-  currentQuestionIndex = 0; //  最初の問題に戻る
-
-  //  画面をリセット
-  document.getElementById("gameOverMessage").style.display = "none";
-  document.getElementById("finalScore").style.display = "none";
-  document.getElementById("restartButton").style.display = "none";
-  document.getElementById("fallingText").style.display = "block";
-  document.getElementById("risingText").style.display = "block";
-  document.getElementById("inputContainer").style.display = "flex";
-  document.getElementById("nextButton").style.display = "block";
-  document.getElementById("lifeContainer").style.display = "block";
-
-  updateLifeDisplay(); // ライフを更新
-  updateHighScoreDisplay(); // 最高得点を再表示
-  loadQuestion();//問題読み込み
+    score = 0; //  スコアをリセット
+    timeOutCount = 0; //  ライフをリセット
+    currentQuestionIndex = 0; //  最初の問題に戻る
+    //  画面をリセット
+    document.getElementById("gameOverMessage").style.display = "none";
+    document.getElementById("finalScore").style.display = "none";
+    document.getElementById("restartButton").style.display = "none";
+    document.getElementById("fallingText").style.display = "block";
+    document.getElementById("risingText").style.display = "block";
+    document.getElementById("inputContainer").style.display = "flex";
+    document.getElementById("nextButton").style.display = "block";
+    document.getElementById("lifeContainer").style.display = "block";
+    updateLifeDisplay(); // ライフを更新
+    updateHighScoreDisplay(); // 最高得点を再表示
+    loadQuestion();//問題読み込み
 }
+//最高得点更新関数
 function updateHighScore() {
   if (score > highScore) { //新しいスコアが最高得点なら更新
     highScore = score;    
   }
 }
+//最高得点表示更新関数
 function updateHighScoreDisplay() {
   document.getElementById("highScoreDisplay").textContent = `High Score: ${highScore}`;
 }
-
-
-
 
 //タイマー開始関数  
 function startTimer() {
@@ -408,7 +455,6 @@ function startTimer() {
         }
     }, 1000);
 }
-
 
 //クイズの読み込み関数
 function loadQuestion() {
@@ -446,7 +492,6 @@ function loadQuestion() {
       updateLifeDisplay(); // ライフを更新
       moveFallingText();//落下文字移動
     }
-   
 
 //文字を落下させる関数        
   function moveFallingText() {
@@ -591,10 +636,10 @@ function endGame() {
     risingText.style.display = "none";//  上昇文字を表示
     formattedAnswer.style.display = "none"; // フォーマットテキストを非表示
   //  スコアを表示
-    score = score*(maxLives - timeOutCount);
+    score = score*(maxLives - timeOutCount+1);
     updateHighScore(); //  最高得点を更新
     updateHighScoreDisplay(); //  最高得点を表示
-    finalScore.innerHTML = `あなたのスコア: ${score}<br>High Score: ${highScore}`; // 最高得点も表示
+    finalScore.innerHTML = `今回のスコア: ${score}<br>High Score: ${highScore}`; // 最高得点も表示
     finalScore.style.display = "block";
   // クイズ要素を非表示
     document.getElementById("fallingText").style.display = "none";
@@ -627,8 +672,6 @@ function endGame() {
         endGame()
         }
     });
-
-
 </script>
 </body>
 </html>
