@@ -46,7 +46,7 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 10%; /*  初期位置を設定 */
+        bottom: 10%; /* 🔴 初期位置を設定 */
         /* display: none; 初期状態では非表示 */
     }
 
@@ -141,7 +141,7 @@
     #scoreDisplay {
         position: absolute;
         top: 5px;
-        right: 20px;
+        right: 5px;
         font-size: 14px;
         font-weight: bold;
         color: #333;
@@ -149,7 +149,7 @@
     #timerDisplay {
         position: absolute;
         top: 20px;
-        right: 20px;
+        right: 5px;
         font-size: 14px;
         font-weight: bold;
         color: #d9534f; /* 赤色 */
@@ -182,19 +182,19 @@
   #lifeContainer {
   position: absolute;
   top: 7%; 
-  right: 35px;
+  right: 5px;
   text-align: center;
 }
 
 #lifeLabel {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: black; /*  "Life" の色 */
   margin-bottom: 1px; /* "Life" と "♥♥♥" の間隔 */
 }
 
 #lifeDisplay {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
   color: red; /*  ハートを赤色 */
 }
@@ -232,7 +232,7 @@
   transform: translate(-50%, -50%);
   padding: 15px 30px;
   font-size: 20px;
-  background-color: #FF5733; /*  オレンジ色 */
+  background-color: #FF5733; /* オレンジ色 */
   color: white;
   border: none;
   cursor: pointer;
@@ -258,11 +258,11 @@
 <body>
   
   <div class="container">
-    <div id="highScoreDisplay">最高得点: 0</div>
+    <div id="highScoreDisplay">High Score: 0</div>
     <div id="scoreDisplay">スコア: 0</div>
     <button id="startButton">開始</button>
     <div class="text text-fall" id="fallingText">化学式シューティングゲーム</div>
-    <div id="timerDisplay">残り時間: 20秒</div>
+    <div id="timerDisplay">残時間: 20秒</div>
     <div id="timeout-message" class="timeout-message">時間切れ！</div>
     <div class="text text-rise" id="risingText"><sup></sup></div>
     <div id="formatted-answer" class="formatted-answer"></div>
@@ -378,7 +378,7 @@ function updateHighScore() {
   }
 }
 function updateHighScoreDisplay() {
-  document.getElementById("highScoreDisplay").textContent = `最高得点: ${highScore}`;
+  document.getElementById("highScoreDisplay").textContent = `High Score: ${highScore}`;
 }
 
 
@@ -393,7 +393,7 @@ function startTimer() {
     // 毎秒カウントダウン
     timer = setInterval(() => {
         timeLeft--;
-        document.getElementById("timerDisplay").textContent = `残り時間: ${timeLeft}秒`; // 残り時間を更新
+        document.getElementById("timerDisplay").textContent = `残時間: ${timeLeft}秒`; // 残り時間を更新
         if (timeLeft <= 0) {
             clearInterval(timer);
             timeOverSound.play(); // 時間切れ音を再生
@@ -431,7 +431,7 @@ function loadQuestion() {
       formattedAnswer.innerHTML  = ""; //  解答をリセット
       risingText.innerHTML = ""; // 上昇文字をリセット
       inputTextInput.value = ""; // 入力欄をリセット
-      risingText.style.bottom = "55%"; // 位置を画面下端にリセット
+      risingText.style.bottom = "55%"; // 🔴位置を画面下端にリセット
       inputTextInput.focus();// 入力欄にフォーカス
       // タイマーをリセット
       clearInterval(timer); // タイマーをリセット
@@ -545,7 +545,7 @@ function loadQuestion() {
         }
       }
       risingText.style.display = 'block';//  上昇文字を表示
-      risingText.style.bottom = "55%"; // 必要に応じて調整 ←ココを10にすると全画面
+      risingText.style.bottom = "55%"; // 🔴必要に応じて調整 ←ココを10にすると全画面
       formattedAnswer.innerHTML  = formattedText|| '<sup></sup>';
       risingText.innerHTML = formattedText || '<sup></sup>';
       // デバッグ用　console.log("ココを通りました： ",risingText.innerHTML); 
@@ -587,8 +587,10 @@ function endGame() {
     risingText.style.display = "none";//  上昇文字を表示
     formattedAnswer.style.display = "none"; // フォーマットテキストを非表示
   //  スコアを表示
+    score = score*(maxLives - timeOutCount);
     updateHighScore(); //  最高得点を更新
-    finalScore.innerHTML = `最終スコア: ${score}<br>最高得点: ${highScore}`; //  最高得点も表示
+    updateHighScoreDisplay(); //  最高得点を表示
+    finalScore.innerHTML = `あなたのスコア: ${score}<br>High Score: ${highScore}`; // 最高得点も表示
     finalScore.style.display = "block";
   // クイズ要素を非表示
     document.getElementById("fallingText").style.display = "none";
