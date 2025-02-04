@@ -34,7 +34,7 @@
         top: 0;
         left: 50%;
         transform: translateX(-50%);/*ココを100にすれば全画面*/
-        font-size: 24px;
+        font-size: 18px;
         font-weight: bold;
         color: #333;
         top: 10%;    }
@@ -78,15 +78,15 @@
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        bottom: 50%; /* 🔴 初期位置を設定 */
+        top: 15%; /*  初期位置を設定 */
         display: none;
     }
 
 
     #startButton {
       position: absolute;
-      bottom: 68%;
-      right: 20px;
+      top: 50%;
+      left: 50%;
       padding: 10px;
       font-size: 12px;
       background-color: #5374e1;
@@ -97,29 +97,27 @@
     }
     #inputContainer {
       position: absolute;
-      bottom: 56%;
-      right: 20px;
+      top: 50%;
+      left: 40%;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       display: none; /* 最初は非表示 */
     }
-    #customText {
-      width: 120px; /* 入力枠の幅を小さくする */
-      height: 25px; /* 入力枠の高さを調整 */
+    #inputText {
+      width: 120px; /*  最小幅を設定 */
       font-size: 14px; /* 文字サイズを適切に */
       padding: 4px 8px; /* 内側の余白を小さくする */
       margin-bottom: 10px;
-    
-      font-size: 16px;
     }
     
     #fireButton {
         position: absolute;
-        bottom: 120%;
-        right: 20px;
+        bottom: 5%;
+        left: 85%;
         padding: 10px 20px;
         font-size: 16px;
+        width: 80px;
         background-color: #4CAF50;
         color: white;
         border: none;
@@ -128,34 +126,34 @@
     }
     
     #nextButton {
-        display: none;
         position: absolute;
-        bottom: 66.3%; 
-        right: 40px;
-        padding: 12px 22px;
+        bottom: 5%;
+        left: 85%;
+        padding: 10px 20px;
         font-size: 16px;
+        width: 80px;
         background-color: #5374e1;
         color: white;
         border: none;
         cursor: pointer;
     }
+    #scoreDisplay {
+        position: absolute;
+        top: 5px;
+        right: 20px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+    }
     #timerDisplay {
         position: absolute;
-        top: 50px;
+        top: 20px;
         right: 20px;
-        font-size: 18px;
+        font-size: 14px;
         font-weight: bold;
         color: #d9534f; /* 赤色 */
     }
 
-    #scoreDisplay {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 20px;
-        font-weight: bold;
-        color: #333;
-    }
 
     .formatted-answer {
     
@@ -250,10 +248,11 @@
     <div id="gameOverMessage">ゲーム終了</div>
     <div id="finalScore"></div> <!--  最終スコアを表示するエリア -->
     <div id="inputContainer">
-      <input type="text" id="customText" placeholder="化学式は？">
+      <input type="text" id="inputText" placeholder="化学式は？">
       <button id="fireButton">発射</button>
+      <button id="nextButton">次へ</button>
     </div>
-    <button id="nextButton">次へ</button>
+    
   </div>
 
   <audio id="fireSound" src="fire-sound.mp3" preload="auto"></audio>
@@ -270,7 +269,7 @@
     const fallingText = document.getElementById('fallingText');//落下文字
     const risingText = document.getElementById('risingText');// 上昇文字
     const fireButton = document.getElementById('fireButton');//発射ボタン
-    const customTextInput = document.getElementById('customText'); //カスタムテキスト
+    const inputTextInput = document.getElementById('inputText'); //カスタムテキスト
     const fireSound = document.getElementById('fireSound');// 発射音
     const nextButton = document.getElementById('nextButton');// 次のボタン
     const explosionSound = document.getElementById('explosionSound');// 爆発音
@@ -278,15 +277,17 @@
     const correctFormula = document.getElementById('correctFormula');//正解
     const startButton = document.getElementById("startButton");
     const formattedAnswer = document.getElementById("formatted-answer");//フォーマットされた解答
+    const maxFallHeight = 37; // 🔴 最大落下範囲を 40% に制限
+    const maxRiseHeight = -50; // 🔴 最大上昇範囲を -40% に制限（上方向）
 
 //クイズデータ
     const quizData = [
-      { name: "水素原子", formula: "H" },
-      { name: "水素分子", formula: "H2_" },
+    { name: "水素原子", formula: "H" },
+    { name: "水素分子", formula: "H2_" },
       { name: "水素イオン", formula: "H+^" },
       { name: "ナトリウムイオン", formula: "Na+^" },
       { name: "塩化物イオン", formula: "Cl-^" },
-      { name: "カルシウムイオン", formula: "Ca2^+^" }
+      { name: "銅イオンがアンモニアと反応して，水溶液中で深青色の錯イオンになったら", formula: "[Cu(NH3_)4_]2^+^" },
     ];
 
     let currentQuestionIndex = 0;//現在の問題インデックス
@@ -310,11 +311,11 @@ document.addEventListener("DOMContentLoaded", () => {// htmlやCSSを読み込�
     const fireSound = document.getElementById("fireSound");
     const explosionSound = document.getElementById("explosionSound");
 
-  // 🔴 スマホで音が出るようにクリックイベントの中で再生
-  fireButton.addEventListener("click", () => {
-    fireSound.currentTime = 0; // 🔴 音をリセット
-    fireSound.play().catch(e => console.error("再生エラー:", e)); // 🔴 スマホ対応
-  });
+  // スマホで音が出るようにクリックイベントの中で再生
+    fireButton.addEventListener("click", () => {
+        fireSound.currentTime = 0; // 音をリセット
+        fireSound.play().catch(e => console.error("再生エラー:", e)); // スマホ対応
+    });
 
     startButton.addEventListener("click", () => {
         startButton.style.display = "none"; // 開始ボタンを非表示
@@ -368,9 +369,9 @@ function loadQuestion() {
       risingText.style.display = 'block';//  上昇文字を表示
       formattedAnswer.innerHTML  = ""; //  解答をリセット
       risingText.innerHTML = ""; // 上昇文字をリセット
-      customTextInput.value = ""; // 入力欄をリセット
+      inputTextInput.value = ""; // 入力欄をリセット
       risingText.style.bottom = "50%"; // 位置を画面下端にリセット
-      customTextInput.focus();// 入力欄にフォーカス
+      inputTextInput.focus();// 入力欄にフォーカス
       // タイマーをリセット
       clearInterval(timer); // タイマーをリセット
         document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;
@@ -385,7 +386,7 @@ function loadQuestion() {
 //文字を落下させる関数        
   function moveFallingText() {
       if (fallStep <= totalFallSteps && isFalling) {//落下ステップが最大ステップ以下かつ落下中の場合
-        const percentage = (fallStep / totalFallSteps) * 50;//パーセンテージ計算←ココを100にすると全画面
+        const percentage = (fallStep / totalFallSteps) * maxFallHeight;//パーセンテージ計算
         fallingText.style.top = `calc(${percentage}vh)`;//落下文字の位置を設定
         checkCollision();//衝突確認
         // 落下文字が画面下端に到達したら「時間切れ」
@@ -396,8 +397,6 @@ function loadQuestion() {
             clearInterval(timer); // タイマー停止
             timeOutCount++; // 時間切れカウントを増やす
             updateLifeDisplay(); // ライフを更新
-      console.log(`時間切れ回数: ${timeOutCount}`);
-
       if (timeOutCount >= 3) {
         endGame(); // 3回時間切れならゲーム終了
         return;
@@ -415,14 +414,14 @@ function loadQuestion() {
       const fallingRect = fallingText.getBoundingClientRect();//  落下文字の矩形を取得
       const risingRect = risingText.getBoundingClientRect();//  上昇文字の矩形を取得
       if (
-        fallingRect.bottom >= risingRect.top &&// 落下文字の下端が上昇文字の上端より大きいか
-        fallingRect.top <= risingRect.bottom &&// 落下文字の上端が上昇文字の下端より小さいか
+        fallingRect.top >= risingRect.top &&// 落下文字の上端が上昇文字の上端より大きいか
+        //fallingRect.top <= risingRect.bottom &&// 落下文字の上端が上昇文字の下端より小さいか
         fallingRect.left <= risingRect.right &&// 落下文字の左端が上昇文字の右端より小さいか
         fallingRect.right >= risingRect.left// 落下文字の右端が上昇文字の左端より大きいか
       ) {
-        customTextInput.focus();// 入力欄にフォーカス
-        checkAnswer(customTextInput,fallingRect)
-        customTextInput.value = ""; // 入力欄をリセット
+        inputTextInput.focus();// 入力欄にフォーカス
+        checkAnswer(inputTextInput,fallingRect)
+        inputTextInput.value = ""; // 入力欄をリセット
         }
     }
 
@@ -467,7 +466,7 @@ function loadQuestion() {
 
 //上昇文字を更新    
     function updateRisingText() {//上昇文字の更新
-      const input = customTextInput.value;//  入力値
+      const input = inputTextInput.value.trim();//  入力値
       let formattedText = '';// フォーマット済みテキスト
       risingText.style.display = "block"; // 変換文字を表示 
 
@@ -492,21 +491,21 @@ function loadQuestion() {
     }
 
 //　文字発射関数  
-    function fireCustomText() {//カスタムテキスト発射
-        fireSound.currentTime = 0; // 🔴 音をリセット
-        fireSound.play().catch(e => console.error("再生エラー:", e)); // 🔴 スマホ対応
+    function fireinputText() {//カスタムテキスト発射
+        fireSound.currentTime = 0; //  音をリセット
+        fireSound.play().catch(e => console.error("再生エラー:", e)); //  スマホ対応
     
         risingText.style.display = 'block';//  上昇文字を表示
-      const inputText = customTextInput.value; // 入力値を取得
-      risingAnimation = risingText.animate(//  上昇アニメーション
+        const inputText = inputTextInput.value; // 入力値を取得
+        risingAnimation = risingText.animate(//  上昇アニメーション
         [
           { transform: 'translateY(0) translateX(-50%)' },//  変換
-          { transform: 'translateY(-50vh) translateX(-50%)' }//  上昇範囲を 50% に制限,先頭の-50を－100にすれば全画面
+          { transform: `translateY(${maxRiseHeight}vh) translateX(-50%)` } // 🔴 上昇範囲を -40vh に制限,－100にすれば全画面
         ],
         {
           duration: 2000,//  持続時間
           iterations: 1,//  繰り返し回数
-          fill: 'forwards'//  終了時の状態を保持
+          fill: 'none' // 🔴 終わったら元の位置に戻る
         }
       );
         risingAnimation.onfinish = () => {//  上昇アニメーション終了時
@@ -524,6 +523,7 @@ function updateLifeDisplay() {
 function endGame() {
     timeoutMessage.style.display = "none"; // 「時間切れ」メッセージを非表示
     document.getElementById("gameOverMessage").style.display = "block";
+    formattedAnswer.style.display = "none"; // フォーマットテキストを非表示
   //  スコアを表示
     const finalScore = document.getElementById("finalScore");
     finalScore.textContent = `最終スコア: ${score}`;
@@ -538,10 +538,10 @@ function endGame() {
 }
 
 //  カスタムテキスト入力時に上昇文字を更新    
-    customTextInput.addEventListener('input', updateRisingText);
+    inputTextInput.addEventListener('input', updateRisingText);
 
 //  発射ボタンクリック時にカスタムテキスト発射    
-    fireButton.addEventListener('click', fireCustomText);
+    fireButton.addEventListener('click', fireinputText);
 
 //  次へのボタンクリック時 
     nextButton.addEventListener('click', () => {
@@ -551,7 +551,7 @@ function endGame() {
         });
         
         timeLeft = 20; // 制限時間リセット
-        customTextInput.focus();
+        inputTextInput.focus();
         //  現在の問題インデックスを更新
         currentQuestionIndex++;
         const totalFallSteps = 200;//落下ステップ数
