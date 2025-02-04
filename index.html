@@ -154,6 +154,15 @@
         color: #d9534f; /* 赤色 */
     }
 
+    #highScoreDisplay {
+      position: absolute;
+      top: 5px;
+      left: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: blue;
+    }
+
 
     .formatted-answer {
     
@@ -171,7 +180,7 @@
     }
   #lifeContainer {
   position: absolute;
-  bottom: 75%; /* 🔴 発射ボタンの上に配置 */
+  top: 7%; 
   right: 35px;
   text-align: center;
 }
@@ -214,6 +223,20 @@
   color: black;
   text-align: center;
 }
+#restartButton {
+  display: none; /* 🔴 最初は非表示 */
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px 30px;
+  font-size: 20px;
+  background-color: #FF5733; /* 🔴 オレンジ色 */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
 
     
     @keyframes rise {
@@ -234,6 +257,7 @@
 <body>
   
   <div class="container">
+    <div id="highScoreDisplay">最高得点: 0</div>
     <div id="scoreDisplay">スコア: 0</div>
     <button id="startButton">ゲーム開始</button>
     <div class="text text-fall" id="fallingText">化学式シューティングゲーム</div>
@@ -252,7 +276,7 @@
       <button id="fireButton">発射</button>
       <button id="nextButton">次へ</button>
     </div>
-    
+    <button id="restartButton">もう一回</button>  
   </div>
 
   <audio id="fireSound" src="fire-sound.mp3" preload="auto"></audio>
@@ -285,9 +309,6 @@
     { name: "水素原子", formula: "H" },
     { name: "水素分子", formula: "H2_" },
       { name: "水素イオン", formula: "H+^" },
-      { name: "ナトリウムイオン", formula: "Na+^" },
-      { name: "塩化物イオン", formula: "Cl-^" },
-      { name: "銅イオンがアンモニアと反応して，水溶液中で深青色の錯イオンになったら", formula: "[Cu(NH3_)4_]2^+^" },
     ];
 
     let currentQuestionIndex = 0;//現在の問題インデックス
@@ -304,10 +325,15 @@
     let timer; // タイマー変数
     let timeOutCount = 0; // 時間切れの回数をカウント
     let maxLives = 3; //  最大ライフ数
+    let highScore = 0; //  最高得点
+
+    document.getElementById("restartButton").addEventListener("click", restartGame);
+    //document.addEventListener("DOMContentLoaded", updateHighScoreDisplay);
 
 //スタートボタンのクリックイベント  
 document.addEventListener("DOMContentLoaded", () => {// htmlやCSSを読み込んだら実行
-    const fireButton = document.getElementById("fireButton");
+
+  const fireButton = document.getElementById("fireButton");
     const fireSound = document.getElementById("fireSound");
     const explosionSound = document.getElementById("explosionSound");
 
@@ -323,6 +349,38 @@ document.addEventListener("DOMContentLoaded", () => {// htmlやCSSを読み込�
         loadQuestion();//問題読み込み
     });
 });
+
+function restartGame() {
+  score = 0; //  スコアをリセット
+  timeOutCount = 0; //  ライフをリセット
+  currentQuestionIndex = 0; //  最初の問題に戻る
+
+  //  画面をリセット
+  document.getElementById("gameOverMessage").style.display = "none";
+  document.getElementById("finalScore").style.display = "none";
+  document.getElementById("restartButton").style.display = "none";
+  document.getElementById("fallingText").style.display = "block";
+  document.getElementById("risingText").style.display = "block";
+  document.getElementById("inputContainer").style.display = "flex";
+  document.getElementById("nextButton").style.display = "block";
+  document.getElementById("lifeContainer").style.display = "block";
+
+  updateLifeDisplay(); // ライフを更新
+  updateHighScoreDisplay(); // 最高得点を再表示
+  loadQuestion();//問題読み込み
+}
+function updateHighScore() {
+  if (score > highScore) { // 🔴 新しいスコアが最高得点なら更新
+    highScore = score;
+    //localStorage.setItem("highScore", highScore); // 🔴 ローカルストレージに保存
+  }
+}
+function updateHighScoreDisplay() {
+  document.getElementById("highScoreDisplay").textContent = `最高得点: ${highScore}`;
+}
+
+
+
 
 //タイマー開始関数  
 function startTimer() {
@@ -351,7 +409,8 @@ function loadQuestion() {
   //全ての問題を終了したら終了を表示
     if (currentQuestionIndex >= quizData.length) {
     //  全問終了時に「ゲーム終了」メッセージを表示
-      endGame(); // すでにライフがゼロならゲーム終了
+    updateLifeDisplay()
+    endGame(); // ゲーム終了
     return; // 以降の処理を実行しない
     }
     if (timeOutCount >= maxLives) {
@@ -523,16 +582,18 @@ function updateLifeDisplay() {
 function endGame() {
     timeoutMessage.style.display = "none"; // 「時間切れ」メッセージを非表示
     document.getElementById("gameOverMessage").style.display = "block";
+    risingText.style.display = "none";//  上昇文字を表示
     formattedAnswer.style.display = "none"; // フォーマットテキストを非表示
   //  スコアを表示
-    const finalScore = document.getElementById("finalScore");
-    finalScore.textContent = `最終スコア: ${score}`;
+    updateHighScore(); // 🔴 最高得点を更新
+    finalScore.innerHTML = `最終スコア: ${score}<br>最高得点: ${highScore}`; // 🔴 最高得点も表示
     finalScore.style.display = "block";
   // クイズ要素を非表示
     document.getElementById("fallingText").style.display = "none";
     document.getElementById("risingText").style.display = "none";
     document.getElementById("inputContainer").style.display = "none";
     document.getElementById("nextButton").style.display = "none";
+    document.getElementById("restartButton").style.display = "block";
   // タイマーを完全に停止
     clearInterval(timer);
 }
@@ -545,11 +606,7 @@ function endGame() {
 
 //  次へのボタンクリック時 
     nextButton.addEventListener('click', () => {
-        nextButton.addEventListener("click", () => {
-            explosionSound.currentTime = 0; 
-            explosionSound.play().catch(e => console.error("再生エラー:", e)); 
-        });
-        
+             
         timeLeft = 20; // 制限時間リセット
         inputTextInput.focus();
         //  現在の問題インデックスを更新
