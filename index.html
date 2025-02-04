@@ -18,6 +18,7 @@
     .container {
       position: relative;
       width: 100%;
+      max-width: 100%; /* 🔴 iPhone でもはみ出さない */
       height: 100%;
     }
     .text {
@@ -140,16 +141,16 @@
     }
     #scoreDisplay {
         position: absolute;
-        top: 5px;
-        right: 5px;
+        top: 1%;
+        right: 1%;
         font-size: 14px;
         font-weight: bold;
         color: #333;
     }
     #timerDisplay {
         position: absolute;
-        top: 20px;
-        right: 5px;
+        top: 5%;
+        right: 1%;
         font-size: 14px;
         font-weight: bold;
         color: #d9534f; /* 赤色 */
@@ -157,8 +158,8 @@
 
     #highScoreDisplay {
       position: absolute;
-      top: 5px;
-      left: 10px;
+      top: 1%;
+      left: 1%;
       font-size: 14px;
       font-weight: bold;
       color: blue;
@@ -182,7 +183,7 @@
   #lifeContainer {
   position: absolute;
   top: 7%; 
-  right: 5px;
+  right: 1%;
   text-align: center;
 }
 
@@ -207,7 +208,7 @@
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 24px;
+  font-size: 36px;
   font-weight: bold;
   color: red;
   text-align: center;
@@ -255,6 +256,8 @@
   </style>
 
 </head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <body>
   
   <div class="container">
