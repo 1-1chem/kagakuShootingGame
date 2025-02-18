@@ -30,7 +30,8 @@
       font-weight: bold;
       color: #333;
     }
-    
+
+/* 🔴🔴🔴🔴 落下文字🔴🔴🔴 */
     .text-fall {
         position: absolute;
         top: 0;
@@ -41,24 +42,25 @@
         color: #333;
         top: 10%;    }
 
+/* 🔴🔴🔴🔴 発射文字🔴🔴🔴 */
     .text-rise {
-        font-size: 48px; /* 文字を大きく */
+        font-size: 48px; /* 文字サイズ */
         font-weight: bold;
         color: #333;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
         bottom: 10%; /* 🔴 初期位置を設定 */
-        /* display: none; 初期状態では非表示 */
     }
 
-    /* 上付き文字 (sup) のサイズも調整 */
+    /* 🔴🔴🔴🔴上付き文字 (sup) のサイズも調整🔴🔴🔴 */
     .text-rise sup {
-        font-size: 36px; /* 通常の半分くらいのサイズに */
+        font-size: 36px; 
     }
-    /* 下付き文字 (sub) のサイズも調整 */
+
+    /* 🔴🔴🔴🔴下付き文字 (sub) のサイズも調整🔴🔴🔴 */
     .text-rise sub {
-        font-size: 36px; /* 通常の半分くらいのサイズに */
+        font-size: 36px; 
     }
 
     .fragment {
@@ -69,12 +71,14 @@
         opacity: 0;
         animation: scatter 1s forwards;
     }
+    
     sup {
           font-size: 16px;
     }
     
+/* 🔴🔴🔴🔴時間切れメッセージ🔴🔴🔴 */
     .timeout-message {
-        font-size: 48px; /* 文字を大きく */
+        font-size: 24px; /* 文字を大きく */
         font-weight: bold;
         color: #fe0101;
         position: absolute;
@@ -83,7 +87,6 @@
         top: 15%; /*  初期位置を設定 */
         display: none;
     }
-
 
     #inputContainer {
       position: absolute;
@@ -94,13 +97,16 @@
       align-items: flex-end;
       display: none; /* 最初は非表示 */
     }
+    
+/* 🔴🔴🔴🔴 入力欄🔴🔴🔴 */
     #inputText {
       width: 120px; /*  最小幅を設定 */
       font-size: 14px; /* 文字サイズを適切に */
       padding: 4px 8px; /* 内側の余白を小さくする */
       margin-bottom: 10px;
     }
-    
+
+/* 🔴🔴🔴🔴 発射ボタン🔴🔴🔴 */
     #fireButton {
         position: absolute;
         bottom: 5%;
@@ -115,6 +121,7 @@
         border-radius: 5px;
     }
     
+/* 🔴🔴🔴🔴 次へのボタン🔴🔴🔴 */
     #nextButton {
         position: absolute;
         bottom: 5%;
@@ -127,6 +134,8 @@
         border: none;
         cursor: pointer;
     }
+
+/* 🔴🔴🔴🔴 スコア表示🔴🔴🔴 */
     #scoreDisplay {
         position: absolute;
         top: 1%;
@@ -135,6 +144,8 @@
         font-weight: bold;
         color: #333;
     }
+
+/* 🔴🔴🔴🔴 残り時間表示🔴🔴🔴 */
     #timerDisplay {
         position: absolute;
         top: 4%;
@@ -144,7 +155,8 @@
         color: #d9534f; /* 赤色 */
     }
 
-    #highScoreDisplay {
+/* 🔴🔴🔴🔴 ハイスコア表示🔴🔴🔴 */
+    #totalScoreDisplay {
       position: absolute;
       top: 1%;
       left: 1%;
@@ -153,7 +165,7 @@
       color: blue;
     }
 
-
+/* 🔴🔴🔴🔴 フォーマット後の文字表示🔴🔴🔴 */
     .formatted-answer {
     
       font-size: 48px; /* 文字を大きく */
@@ -182,26 +194,14 @@
   margin-bottom: 1px; /* "Life" と "♥♥♥" の間隔 */
 }
 
+/* 🔴🔴🔴🔴 LIFE表示🔴🔴🔴 */
 #lifeDisplay {
   font-size: 18px;
   font-weight: bold;
   color: red; /*  ハートを赤色 */
 }
 
-
-
-#gameOverMessage {
-  display: none; /*  初期状態では非表示 */
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 36px;
-  font-weight: bold;
-  color: red;
-  text-align: center;
-}
-
+/* 🔴🔴🔴🔴 最終スコア表示🔴🔴🔴 */
 #finalScore {
   display: none;
   position: absolute;
@@ -213,6 +213,8 @@
   color: black;
   text-align: center;
 }
+
+/* 🔴🔴🔴🔴 やりなおしボタン🔴🔴🔴 */
 #restartButton {
   display: none; /* 最初は非表示 */
   position: absolute;
@@ -227,6 +229,9 @@
   cursor: pointer;
   border-radius: 8px;
 }
+
+
+/* 🔴🔴🔴🔴 ゲーム開始前表示🔴🔴🔴 */
 #gameIntro {
   position: absolute;
   top: 50%;
@@ -239,8 +244,8 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   text-align: center;
   border-radius: 10px;
-  pointer-events: auto; /* クリックを許可 */
-  z-index: 1000; /* 他の要素より前面に表示 */
+  pointer-events: auto; /* 🔴 クリックを許可 */
+  z-index: 1000; /* 🔴 他の要素より前面に表示 */
 }
 
 #gameIntro h1 {
@@ -253,6 +258,7 @@
   padding-left: 20px;
 }
 
+/* 🔴🔴🔴🔴 スタートボタン🔴🔴🔴 */
 #startButton {
   padding: 10px 20px;
   font-size: 18px;
@@ -267,7 +273,21 @@
   pointer-events: auto; /* 🔴 クリックを許可 */
 }
 
-
+/* 🔴🔴🔴🔴 次のレベルボタン🔴🔴🔴 */
+#nextlevelButton {
+  display: none; /* 最初は非表示 */
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 15px 30px;
+  font-size: 20px;
+  background-color: #08f704bd; /* 緑色 */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
     
     @keyframes rise {
       0% {bottom: 0;}
@@ -295,17 +315,17 @@
     <ul>
       <li>画面上から落ちてくる問題を撃ち落とそう！</li>
       <li>正しい化学式を入力し、「発射」ボタンを押す</li>
-      <li>化学式は，半角で入力，上付き，下付も判別</li>
-      <li>^を入力すると1文字前のみ上付き</li>
-      <li>_を入力すると1文字前のみ下付きになる</li>
       <li>正解なら爆発！ 不正解なら通過！</li>
-      <li>3回ミスするとゲームオーバー</li>
+      <li>3回ミスするとやりなおし</li>
+      <li>レベル1～3は元素記号</li>
+      <li>レベル4～6はイオン式</li>
+      <li></li>
     </ul>
     <button id="startButton">ゲーム開始</button>
   </div>
-
+  
   <div class="container">
-    <div id="highScoreDisplay">High Score: 0</div>
+    <div id="totalScoreDisplay">Total Score: 0</div>
     <div id="scoreDisplay">スコア: 0</div>
 
     <div class="text text-fall" id="fallingText"></div>
@@ -317,208 +337,287 @@
       <div id="lifeLabel">Life</div>
       <div id="lifeDisplay">♥♥♥</div>
     </div>
-    <div id="gameOverMessage">ゲーム終了</div>
     <div id="finalScore"></div> <!--  最終スコアを表示するエリア -->
     <div id="inputContainer">
       <input type="text" id="inputText" placeholder="化学式は？">
       <button id="fireButton">発射</button>
       <button id="nextButton">次へ</button>
     </div>
-    <button id="restartButton">もう一回</button>  
+    <button id="restartButton">やりなおし</button>
+    <button id="nextlevelButton">次のレベルへ</button>
+    
+
+    <!-- 🔴 間違えた問題の一覧を表示するエリア -->
+<div id="wrongAnswersList" style="display: none;">
+  <h2>間違えた問題</h2>
+  <ul id="wrongAnswersContainer"></ul>
+</div>
+
   </div>
 
   <audio id="fireSound" src="fire-sound.mp3" preload="auto"></audio>
   <audio id="explosionSound" src="explosion-sound.mp3" preload="auto"></audio>
+  <audio id="hazureSound" src="hazure.wav" preload="auto"></audio>
   <audio id="timeOverSound" src="bubu-.mp3" preload="auto"></audio>
 
 <script>
 
 //クイズデータ
-const quizData = [
-      { name: "水素原子", formula: "H" },
-      { name: "水素分子", formula: "H2_" },
+let quizLevels = {
+  1: [
+      { name: "水素", formula: "H" },
+      { name: "ヘリウム", formula: "He" },
+      { name: "リチウム", formula: "Li" },
+      { name: "ベリリウム", formula: "Be" },
+      { name: "ホウ素", formula: "B" },
+      { name: "炭素", formula: "C" },
+      { name: "窒素", formula: "N" },
+      { name: "酸素", formula: "O" },
+      { name: "フッ素", formula: "F" },
+      { name: "ネオン", formula: "Ne" },
+      { name: "ナトリウム", formula: "Na" },
+      { name: "マグネシウム", formula: "Mg" },
+      { name: "アルミニウム", formula: "Al" },
+      { name: "ケイ素", formula: "Si" },
+      { name: "リン", formula: "P" },
+      { name: "硫黄", formula: "S" },
+      { name: "塩素", formula: "Cl" },
+      { name: "アルゴン", formula: "Ar" },
+      { name: "カリウム", formula: "K" },
+      { name: "カルシウム", formula: "Ca" },
+    ],
+  2: [
+      { name: "スカンジウム", formula: "Sc" },
+      { name: "チタン", formula: "Ti" },
+      { name: "バナジウム", formula: "V" },
+      { name: "クロム", formula: "Cr" },
+      { name: "マンガン", formula: "Mn" },
+      { name: "鉄", formula: "Fe" },
+      { name: "コバルト", formula: "Co" },
+      { name: "ニッケル", formula: "Ni" },
+      { name: "銅", formula: "Cu" },
+      { name: "亜鉛", formula: "Zn" },
+      { name: "ガリウム", formula: "Ga" },
+      { name: "ゲルマニウム", formula: "Ge" },
+      { name: "ヒ素", formula: "As" },
+      { name: "セレン", formula: "Se" },
+      { name: "臭素", formula: "Br" },
+      { name: "クリプトン", formula: "Kr" },
+  ],
+  3: [
+      { name: "ストロンチウム", formula: "Sr" },
+      { name: "パラジウム", formula: "Pd" },
+      { name: "銀", formula: "Ag" },
+      { name: "カドミウム", formula: "Cd" },
+      { name: "スズ", formula: "Sn" },
+      { name: "アンチモン", formula: "Sb" },
+      { name: "ヨウ素", formula: "I" },
+      { name: "キセノン", formula: "Xe" },
+      { name: "バリウム", formula: "Ba" },
+      { name: "タンタル", formula: "Ta" },
+      { name: "タングステン", formula: "W" },
+      { name: "白金", formula: "Pt" },
+      { name: "金", formula: "Au" },
+      { name: "水銀", formula: "Hg" },
+      { name: "鉛", formula: "Pb" },
+      { name: "ウラン", formula: "U" },
+  ],
+  4: [
       { name: "水素イオン", formula: "H+^" },
-      { name: "水酸化物イオン", formula: "OH-^" },
+      { name: "リチウムイオン", formula: "Li+^" },
+      { name: "酸化物イオン", formula: "O2^-^" },
+      { name: "フッ化物イオン", formula: "F-^" },
+      { name: "ナトリウムイオン", formula: "Na+^" },
+      { name: "マグネシウムイオン", formula: "Mg2^+^" },
+      { name: "アルミニウムイオン", formula: "Al3^+^" },
+      { name: "硫化物イオン", formula: "S2^-^" },
+      { name: "塩化物イオン", formula: "Cl-^" },
+      { name: "カリウムイオン", formula: "K+^" },
       { name: "カルシウムイオン", formula: "Ca2^+^" },
-      { name: "水素分子2個", formula: "2H2_" },
+  ],
+  5: [
+      { name: "クロム(Ⅲ)イオン", formula: "Cr3^+^" },
+      { name: "マンガン(Ⅱ)イオン", formula: "Mn2^+^" },
+      { name: "鉄(Ⅱ)イオン", formula: "Fe2^+^" },
+      { name: "鉄(Ⅲ)イオン", formula: "Fe3^+^" },
+      { name: "ニッケル(Ⅱ)イオン", formula: "Ni2^+^" },
+      { name: "銅(Ⅰ)イオン", formula: "Cu+^" },
+      { name: "銅(Ⅱ)イオン", formula: "Cu2^+^" },
+      { name: "亜鉛イオン", formula: "Zn2^+^" },
+      { name: "臭化物イオン", formula: "Br-^" },
+      { name: "ストロンチウムイオン", formula: "Sr2^+^" },
+      { name: "銀イオン", formula: "Ag+^" },
+      { name: "ヨウ化物イオン", formula: "I-^" },
+      { name: "スズ(Ⅱ)イオン", formula: "Sn2^+^" },
+      { name: "スズ(Ⅳ)イオン", formula: "Sn4^+^" },
+      { name: "バリウムイオン", formula: "Ba2^+^" },
+      { name: "水銀(Ⅱ)イオン", formula: "Hg2^+^" },
+      { name: "鉛(Ⅱ)イオン", formula: "Pb2^+^" },
+  ],
+  6: [
+      { name: "水酸化物イオン", formula: "OH-^" },
+      { name: "アンモニウムイオン", formula: "NH4_+^" },
+      { name: "硝酸イオン", formula: "NO3_-^" },
+      { name: "炭酸イオン", formula: "CO3_2^-^" },
+      { name: "炭酸水素イオン", formula: "HCO3_-^" },
       { name: "硫酸イオン", formula: "SO4_2^-^" },
+      { name: "リン酸イオン", formula: "PO4_3-^" },
+      { name: "過マンガン酸イオン", formula: "MnO4_-^" },
+      { name: "クロム酸イオン", formula: "CrO4_2^-^" },
       { name: "二クロム酸イオン", formula: "Cr2_O7_2^-^" },
-    ];
+      { name: "酢酸イオン", formula: "CH3_COO-^" },
+    ]
+  };
 
 //定数の宣言
-    const totalFallSteps = 200;//落下ステップ数
-    const fallDuration = 20000;//落下時間
-    const fallStepDuration = fallDuration / totalFallSteps;//落下ステップ時間
-    const timeoutMessage = document.getElementById("timeout-message");
-    const fallingText = document.getElementById('fallingText');//落下文字
-    const risingText = document.getElementById('risingText');// 上昇文字
-    const fireButton = document.getElementById('fireButton');//発射ボタン
-    const inputTextInput = document.getElementById('inputText'); //カスタムテキスト
-    const fireSound = document.getElementById('fireSound');// 発射音
-    const nextButton = document.getElementById('nextButton');// 次のボタン
-    const explosionSound = document.getElementById('explosionSound');// 爆発音
-    const timeOverSound = document.getElementById('timeOverSound');// 時間切れ音
-    const correctFormula = document.getElementById('correctFormula');//正解
-    const startButton = document.getElementById("startButton");
+    const startButton = document.getElementById("startButton");       //スタートボタン
+    const inputTextInput = document.getElementById('inputText');    //入力欄
     const formattedAnswer = document.getElementById("formatted-answer");//フォーマットされた解答
+    const fallingText = document.getElementById('fallingText');     //落下文字
+    const risingText = document.getElementById('risingText');       //上昇文字
+    const fireButton = document.getElementById('fireButton');       //発射ボタン
+    const fireSound = document.getElementById('fireSound');         // 発射音
+    const explosionSound = document.getElementById('explosionSound');// 爆発音
+    const hazureSound = document.getElementById('hazureSound');// 爆発音
+    const nextButton = document.getElementById('nextButton');       // 次のボタン   
+    const timeOverSound = document.getElementById('timeOverSound');  // 時間切れ音
+    const timeoutMessage = document.getElementById("timeout-message");//時間切れメッセージ
+    const correctFormula = document.getElementById('correctFormula'); //正解
+//初期設定
+    const totalFallSteps = 200;//落下ステップ数
+    const fallDuration = 10000;//落下時間
+    const fallStepDuration = fallDuration / totalFallSteps;//落下ステップ時間
     const maxFallHeight = 31; // 🔴 最大落下範囲を 31% に制限(発射文字と被らせないため)
     const maxRiseHeight = -50; // 🔴 最大上昇範囲を -50% に制限（上方向に動く文字が突き抜ける）
     //🔴formattedAnswerの位置はCSSで
     //🔴risingText.style.bottom = "55%"; で発射文字の下端を設定
-
-    let currentQuestionIndex = 0;//現在の問題インデックス
-    let isFalling = true;//落下中かどうか
+    let isFalling = true;//落下中に設定
     let fallInterval;//落下間隔
     let fallStep = 0;//落下ステップ
-    const container = document.querySelector('.container');//コンテナ
-    let scatterCount = 0;
-    const maxScatterCount = 3;
+    let wrongAnswers = [];//間違えた問題←間違えた問題を再実行用
+    let yarinaosiKaisu = 1;
+    const container = document.querySelector('.container');//Document の querySelector() メソッドは、
+                // 指定されたセレクターまたはセレクター群に一致する、文書内の最初の Element を返します。
+                // 一致するものが見つからない場合は null を返します。
+    let scatterCount = 0;//散乱カウント
+    const maxScatterCount = 3;//最大散乱数
     let risingAnimation;//上昇アニメーション
     fireButton.style.display = "none"; //発射ボタンを非表示
     let score = 0; // スコアの初期化
-    let timeLeft = 20; // 制限時間（秒）
+    let timeLeft = 5; // 制限時間（秒）
     let timer; // タイマー変数
     let timeOutCount = 0; // 時間切れの回数をカウント
     let maxLives = 3; //  最大ライフ数
-    let highScore = 0; //  最高得点
+    let totalScore = 0; //  合計得点
 
-    document.getElementById("restartButton").addEventListener("click", restartGame);
-    //document.addEventListener("DOMContentLoaded", updateHighScoreDisplay);
+    let quizData = []; // 現在のレベルの問題リスト
+    let currentLevel = 1; // 現在のレベル
+    let level = 1; // レベル
+    let currentQuestionIndex = 0;//現在の問題インデックス
 
 //スタートボタンのクリックイベント  
 document.addEventListener("DOMContentLoaded", () => {// htmlやCSSを読み込んだら実行
-    const startButton = document.getElementById("startButton");
-    const gameIntro = document.getElementById("gameIntro");
-    const fireButton = document.getElementById("fireButton");
-    const fireSound = document.getElementById("fireSound");
-    const explosionSound = document.getElementById("explosionSound");
-    //スタートボタンクリック時の動作
-    startButton.addEventListener("click", () => {
-        gameIntro.style.display = "none"; // 説明を非表示  
-        startButton.style.display = "none"; // 開始ボタンを非表示
-        fireButton.style.display = "block"; //発射ボタンを表示
-        loadQuestion();//問題読み込み
-    });
-    // スマホで音が出るようにクリックイベントの中で再生
-    fireButton.addEventListener("click", () => {
-        fireSound.currentTime = 0; // 音をリセット
-        fireSound.play().catch(e => console.error("再生エラー:", e)); // スマホ対応
-    });
-});
-
-//ゲーム再開関数
-function restartGame() {
-    score = 0; //  スコアをリセット
-    timeOutCount = 0; //  ライフをリセット
-    currentQuestionIndex = 0; //  最初の問題に戻る
-    //  画面をリセット
-    document.getElementById("gameOverMessage").style.display = "none";
-    document.getElementById("finalScore").style.display = "none";
-    document.getElementById("restartButton").style.display = "none";
-    document.getElementById("fallingText").style.display = "block";
-    document.getElementById("risingText").style.display = "block";
-    document.getElementById("inputContainer").style.display = "flex";
-    document.getElementById("nextButton").style.display = "block";
-    document.getElementById("lifeContainer").style.display = "block";
-    updateLifeDisplay(); // ライフを更新
-    updateHighScoreDisplay(); // 最高得点を再表示
-    loadQuestion();//問題読み込み
-}
-//最高得点更新関数
-function updateHighScore() {
-  if (score > highScore) { //新しいスコアが最高得点なら更新
-    highScore = score;    
-  }
-}
-//最高得点表示更新関数
-function updateHighScoreDisplay() {
-  document.getElementById("highScoreDisplay").textContent = `High Score: ${highScore}`;
-}
-
-//タイマー開始関数  
-function startTimer() {
-    timeoutMessage.style.display = "none"; // 「時間切れ」メッセージを非表示
-    timeLeft = 20; // 制限時間リセット
-    document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;
-    document.getElementById("timerDisplay").textContent = `残時間: ${timeLeft}秒`; // 初期表示
-    // 毎秒カウントダウン
-    timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById("timerDisplay").textContent = `残時間: ${timeLeft}秒`; // 残り時間を更新
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            timeOverSound.play(); // 時間切れ音を再生
-            timeoutMessage.style.display = "block"; // 「時間切れ」メッセージを表示
-            timeoutMessage.textContent = "時間切れ！"; // 「時間切れ」と表示
-            timeOutCount++; // 時間切れカウントを増やす
-            nextButton.style.display = "block"; // 「次へ」ボタンを表示
+      const startButton = document.getElementById("startButton");//スタートボタン
+      const gameIntro = document.getElementById("gameIntro");//ゲーム説明
+      const fireButton = document.getElementById("fireButton");// 発射ボタン
+      const fireSound = document.getElementById("fireSound");//   発射音
+      const explosionSound = document.getElementById("explosionSound");// 爆発音
+      inputTextInput.addEventListener("keypress", (event) => {  //  エンターキーで発射するイベントを追加
+        if (event.key === "Enter") { // エンターキーが押されたかチェック
+            event.preventDefault(); // デフォルトの動作（フォーム送信など）を防ぐ
+            fireinputText(); // 文字を発射
         }
-    }, 1000);
-}
+      });    
+      gameStart();
+    });
+
+//ゲームスタート関数
+    function gameStart() {
+        startButton.addEventListener("click", () => { //スタートボタンクリック時の動作
+            gameIntro.style.display = "none"; // 説明を非表示  
+            startButton.style.display = "none"; // 開始ボタンを非表示
+            fireButton.style.display = "block"; //発射ボタンを表示
+            quizuLevel(level)//クイズレベルの処理
+        });
+        fireButton.addEventListener("click", () => { // スマホで音が出るようにクリックイベントの中で再生
+            fireSound.currentTime = 0; // 音をリセット
+            fireSound.play().catch(e => console.error("再生エラー:", e)); // スマホ対応
+        });
+    }
+
+//クイズレベルの処理
+    function quizuLevel(level) {
+        currentLevel = level; // 現在のレベルを記録
+        quizData = [...quizLevels[level]]; //  選択したレベルの問題をコピー
+        currentQuestionIndex = 0;
+        score = 0; // スコアの初期化
+        wrongAnswers = []; //  間違えた問題をリセット
+        gamenRest ();//  画面をリセット
+        loadQuestion(); //  クイズを開始
+    }
+
+//画面リセット関数
+    function gamenRest() {
+        document.getElementById("finalScore").style.display = "none";
+        document.getElementById("restartButton").style.display = "none";
+        document.getElementById("nextlevelButton").style.display = "none";
+        document.getElementById("fallingText").style.display = "block";
+        document.getElementById("risingText").style.display = "block";
+        document.getElementById("inputContainer").style.display = "flex";
+        document.getElementById("nextButton").style.display = "block";
+        document.getElementById("lifeContainer").style.display = "block";
+    }
 
 //クイズの読み込み関数
-function loadQuestion() {
-  //全ての問題を終了したら終了を表示
-    if (currentQuestionIndex >= quizData.length) {
-    //  全問終了時に「ゲーム終了」メッセージを表示
-    updateLifeDisplay()
-    endGame(); // ゲーム終了
-    return; // 以降の処理を実行しない
-    }
-    if (timeOutCount >= maxLives) {
-      updateLifeDisplay()  
-      endGame(); // すでにライフがゼロならゲーム終了
-    return;
-    }
-    document.getElementById("inputContainer").style.display = "flex";
-      const question = quizData[currentQuestionIndex];//問題取得
-      fallingText.textContent = question.name;//  落下文字に問題名を設定
-      fallingText.style.display = "block";//落下文字を表示
-      nextButton.style.display = "none";//次のボタンを非表示
-      fallStep = 0;
-      isFalling = true;//落下中   
-      risingText.style.display = 'block';//  上昇文字を表示
-      formattedAnswer.innerHTML  = ""; //  解答をリセット
-      risingText.innerHTML = ""; // 上昇文字をリセット
-      inputTextInput.value = ""; // 入力欄をリセット
-      risingText.style.bottom = "55%"; // 🔴位置を画面下端にリセット
-      inputTextInput.focus();// 入力欄にフォーカス
-      // タイマーをリセット
-      clearInterval(timer); // タイマーをリセット
-        document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;
-    // `fragment` クラスの不要な文字を削除（前回の散乱をリセット）
+    function loadQuestion() {       
+        updateLifeDisplay()
+        if (currentQuestionIndex >= quizData.length || timeOutCount >= maxLives) {  //全ての問題を終了したら
+            endGame(); // ゲーム終了
+        return; // 以降の処理を実行しない
+        }
+        // `fragment` クラスの不要な文字を削除（前回の散乱をリセット）
         document.querySelectorAll(".fragment").forEach((el) => el.remove());
-      startTimer(); //タイマー開始
-      updateLifeDisplay(); // ライフを更新
-      moveFallingText();//落下文字移動
+        const question = quizData[currentQuestionIndex];  //問題取得
+        nextButton.style.display = "none";                //次のボタンを非表示
+        fallingText.textContent = question.name;          //落下文字に問題を代入
+        fallingText.style.display = "block";              //落下文字を表示
+        fallStep = 0;//落下ステップをリセット
+        isFalling = true;//落下中
+        document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;//スコアを表示
+        clearInterval(timer); // タイマーをリセット
+        mojiInput(currentQuestionIndex);//文字入力
+        startTimer();         //タイマー開始
+        moveFallingText();    //落下文字移動
     }
 
-//文字を落下させる関数        
-  function moveFallingText() {
+//文字入力設定    
+    function mojiInput(currentQuestionIndex){
+        document.getElementById("inputContainer").style.display = "flex";//入力欄を表示
+        risingText.innerHTML = ""; // 上昇文字をリセット
+        risingText.style.bottom = "55%"; // 位置を画面下端にリセット
+        risingText.style.display = 'block';//上昇文字を表示
+        formattedAnswer.innerHTML  = ""; //上昇させない解答をリセット
+        inputTextInput.value = ""; // 入力欄をリセット
+        inputTextInput.focus();// 入力欄にフォーカス
+    }
+    
+//文字を落下させる関数
+    function moveFallingText() {  
       if (fallStep <= totalFallSteps && isFalling) {//落下ステップが最大ステップ以下かつ落下中の場合
         const percentage = (fallStep / totalFallSteps) * maxFallHeight;//パーセンテージ計算
         fallingText.style.top = `calc(${percentage}vh)`;//落下文字の位置を設定
         checkCollision();//衝突確認
-        // 落下文字が画面下端に到達したら「時間切れ」
-        const fallingRect = fallingText.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        if (fallingRect.bottom >= windowHeight) {
-            isFalling = false; // 落下を停止
-            clearInterval(timer); // タイマー停止
-            timeOutCount++; // 時間切れカウントを増やす
-            updateLifeDisplay(); // ライフを更新
-      if (timeOutCount >= 3) {
-        endGame(); // 3回時間切れならゲーム終了
-        return;
-      }
-      nextButton.style.display = "block"; // 「次へ」ボタンを表示
+        const fallingRect = fallingText.getBoundingClientRect();//落下文字の矩形を取得
+        const windowHeight = window.innerHeight;//ウィンドウの高さ
+        if (fallingRect.bottom >= windowHeight) {// 落下文字が画面下端に到達したら
+            jikangireShori(); // 時間切れ処理
         } else {
             fallStep++;
             setTimeout(moveFallingText, fallStepDuration);
         }
       }
   }
-  
+
 //衝突検知関数
     function checkCollision() {
       const fallingRect = fallingText.getBoundingClientRect();//  落下文字の矩形を取得
@@ -534,30 +633,40 @@ function loadQuestion() {
         inputTextInput.value = ""; // 入力欄をリセット
         }
     }
-
 //　答え合わせ関数
   function checkAnswer(inputText,fallingRect) {
       const correctAnswer = quizData[currentQuestionIndex].formula;//  正解の取得
       const kaitou =inputText.value
+      if(kaitou===""){//kaitouが""の時に不正解処理をさせない
+        return;
+      }
       if (kaitou === correctAnswer) {//  入力値が正解の場合
-          clearInterval(timer); //　タイマー停止
-          explosionSound.play();//爆発音再生
-          score += timeLeft; //  残り時間をスコアに加算
-          document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;
-          scatterText(fallingRect);//  散乱文字
+        seikaiShori(fallingRect)//  正解処理
       } else {
-       
+        fuseikaiShori(fallingRect)//  不正解処理
       }
   }
+//　正解処理関数
+  function seikaiShori(fallingRect) {
+        clearInterval(timer); //　タイマー停止
+        explosionSound.play();//爆発音再生
+        score += timeLeft/yarinaosiKaisu; //  残り時間をスコアに加算
+        document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;
+        scatterText(fallingRect);//  散乱文字
+    }
+//　不正解処理関数（本当の不正解は時間切れ）
+  function fuseikaiShori() {
+        hazureSound.play();//ハズレ再生
+    }
 
 //　文字バラバラ関数
-  function scatterText(collisionRect) {
-    const text = fallingText.textContent;
-    fallingText.style.display = 'none';
-    isFalling = false;
-        const fragmentCount = text.length;
-        const centerX = collisionRect.left + collisionRect.width / 2;
-        const centerY = collisionRect.top + collisionRect.height / 2;
+function scatterText(collisionRect) {
+    const text = fallingText.textContent;//  落下文字を取得
+    fallingText.style.display = 'none';//  落下文字を非表示
+    isFalling = false;//落下中を停止
+        const fragmentCount = text.length;//  フラグメント数
+        const centerX = collisionRect.left + collisionRect.width / 2;//  中心X
+        const centerY = collisionRect.top + collisionRect.height / 2;//  中心Y
 
         for (let i = 0; i < fragmentCount; i++) {
             const char = text[i];
@@ -570,16 +679,87 @@ function loadQuestion() {
             span.style.top = `${centerY}px`;
             container.appendChild(span);
         }
-    risingText.style.display = 'block';//}, 1000);
-    nextButton.style.display = "block";
+    //risingText.style.display = 'block';//  上昇文字を表示
+    formattedAnswer.style.display = "none"; // フォーマットテキストを非表示    
+    nextButton.style.display = "block";//  次のボタンを表示
 }
 
-//上昇文字を更新    
+//やりなおしボタンクリック時   
+    document.getElementById("restartButton").addEventListener("click", restartGame);
+//やりなおし再開関数
+function restartGame() {
+  if (wrongAnswers.length === 0) return; // 🔴 間違えた問題がない場合は処理しない
+  document.getElementById("wrongAnswersList").style.display = "none"; // 🔴 前回の間違いリストを非表示
+  let unansweredQuestions = quizData.slice(currentQuestionIndex); // まだ出題していない問題
+  unansweredQuestions = unansweredQuestions.slice(1);
+  quizData = [...wrongAnswers,...unansweredQuestions];// 🔴 間違えた問題のみを出題リストとして設定
+  score = 0; //  スコアをリセット
+    timeOutCount = 0; //  ライフをリセット
+    yarinaosiKaisu++;
+    currentQuestionIndex = 0; //  最初の問題に戻る
+    wrongAnswers = []; // 🔴 クリアして、新たな間違いを記録できるようにする
+    gamenRest ();//  画面をリセット   
+    updateLifeDisplay(); // ライフを更新
+    updateTotalScoreDisplay(); // 最高得点を再表示
+    loadQuestion();//問題読み込み
+}
+
+//合計得点更新関数
+function updateTotalScore() {
+  //if (score > totalScore) { //新しいスコアが最高得点なら更新
+    totalScore = totalScore + score;    
+  //}
+}
+//合計得点表示更新関数
+function updateTotalScoreDisplay() {
+  document.getElementById("totalScoreDisplay").textContent = `total Score: ${totalScore}`;
+}
+
+//タイマー開始関数  
+function startTimer() {
+    timeoutMessage.style.display = "none"; // 「時間切れ」メッセージを非表示
+    timeLeft = 4; // 制限時間リセット
+    document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;//スコアを表示
+    document.getElementById("timerDisplay").textContent = `残時間: ${timeLeft}秒`; // 初期表示
+    timer = setInterval(() => { // 1秒ごとに実行
+        timeLeft--;             //  残り時間を減らす
+        document.getElementById("timerDisplay").textContent = `残時間: ${timeLeft}秒`; // 残り時間を更新
+        if (timeLeft <= 0) {    //  残り時間が0以下なら
+            jikangireShori(currentQuestionIndex);  //  時間切れ処理  
+        }
+    }, 1000);// 1000ミリ秒（1秒）ごとに実行
+}
+
+//時間切れ処理関数
+function jikangireShori(currentQuestionIndex) {
+      isFalling = false; // 落下を停止
+      clearInterval(timer); // タイマー停止
+      timeOutCount++; // 時間切れカウントを増やす
+      timeOverSound.play(); // 時間切れ音を再生
+      timeoutMessage.style.display = "block"; // 「時間切れ」メッセージを表示
+      timeoutMessage.textContent = "時間切れ！"; // 「時間切れ」と表示
+      updateLifeDisplay(); // ライフを更新
+      formattedAnswer.style.display = "none"; // フォーマットテキストを非表示
+      nextButton.style.display = "block"; // 「次へ」ボタンを表示
+    
+      if (!wrongAnswers.some(q => q.name === quizData[currentQuestionIndex].name)) {
+            wrongAnswers.push(quizData[currentQuestionIndex]);
+        //デバッグ用 console.table(wrongAnswers); console.log("ココを通りました： ",wrongAnswers); 
+      }
+      if (timeOutCount >= 3) {// 3回時間切れなら
+            endGame(); // ゲーム終了
+        return;
+      }
+}
+
+//文字入力時に上昇文字を更新    
+inputTextInput.addEventListener('input', updateRisingText);
+
+//上付き下付を処理    
     function updateRisingText() {//上昇文字の更新
       const input = inputTextInput.value.trim();//  入力値
       let formattedText = '';// フォーマット済みテキスト
-      risingText.style.display = "block"; // 変換文字を表示 
-
+      risingText.style.display = "block"; // 変換文字を表示
       for (let i = 0; i < input.length; i++) {//  入力文字数分繰り返し
         if (input[i] === '^' && i > 0) {//  文字が^かつインデックスが0より大きい場合
           formattedText =
@@ -600,11 +780,14 @@ function loadQuestion() {
       // デバッグ用　console.log("ココを通りました： ",risingText.innerHTML); 
     }
 
-//　文字発射関数  
-    function fireinputText() {//カスタムテキスト発射
+//発射ボタンクリック時にカスタムテキスト発射    
+fireButton.addEventListener('click', fireinputText)
+
+//文字発射処理
+    function fireinputText(){
         fireSound.currentTime = 0; //  音をリセット
         fireSound.play().catch(e => console.error("再生エラー:", e)); //  スマホ対応
-    
+        formattedAnswer.style.display = "none"; // フォーマットテキストを非表示
         risingText.style.display = 'block';//  上昇文字を表示
         const inputText = inputTextInput.value; // 入力値を取得
         risingAnimation = risingText.animate(//  上昇アニメーション
@@ -619,7 +802,8 @@ function loadQuestion() {
         }
       );
         risingAnimation.onfinish = () => {//  上昇アニメーション終了時
-      };
+        risingText.style.display = 'none';//  上昇文字を表示
+        };
     }
 
 // ライフ表示を更新
@@ -629,49 +813,68 @@ function updateLifeDisplay() {
   lifeDisplay.textContent = lives || "GAME OVER"; // 0なら "GAME OVER" 表示
 }
 
-// ゲーム終了メッセージを表示
+// ゲーム終了時処理
 function endGame() {
     timeoutMessage.style.display = "none"; // 「時間切れ」メッセージを非表示
-    document.getElementById("gameOverMessage").style.display = "block";
     risingText.style.display = "none";//  上昇文字を表示
     formattedAnswer.style.display = "none"; // フォーマットテキストを非表示
   //  スコアを表示
-    score = score*(maxLives - timeOutCount+1);
-    updateHighScore(); //  最高得点を更新
-    updateHighScoreDisplay(); //  最高得点を表示
-    finalScore.innerHTML = `今回のスコア: ${score}<br>High Score: ${highScore}`; // 最高得点も表示
+    score = score //*(maxLives - timeOutCount)/yarinaosiKaisu;
+    updateTotalScore(); //  最高得点を更新
+    updateTotalScoreDisplay(); //  最高得点を表示
+    finalScore.innerHTML = `今回のスコア: ${score}`;
     finalScore.style.display = "block";
   // クイズ要素を非表示
     document.getElementById("fallingText").style.display = "none";
     document.getElementById("risingText").style.display = "none";
     document.getElementById("inputContainer").style.display = "none";
     document.getElementById("nextButton").style.display = "none";
-    document.getElementById("restartButton").style.display = "block";
+    //document.getElementById("restartButton").style.display = "block";
   // タイマーを完全に停止
     clearInterval(timer);
+  // 間違えた問題一覧を表示
+  const wrongAnswersContainer = document.getElementById("wrongAnswersContainer");
+    wrongAnswersContainer.innerHTML = ""; // 一度リセット
+  
+    if (wrongAnswers.length > 0) {
+      document.getElementById("wrongAnswersList").style.display = "block"; // 🔴 表示する
+        wrongAnswers.forEach(question => {
+            const li = document.createElement("li");
+            li.textContent = `${question.name}`;
+            wrongAnswersContainer.appendChild(li);
+          });
+      document.getElementById("restartButton").style.display = "block"; // やりなおしボタン表示
+    } else {
+      document.getElementById("wrongAnswersList").style.display = "none"; // 🔴 全問正解なら非表示
+      finalScore.innerHTML = `今回のスコア: ${score}
+    <br>下付にする：文字の直後に_アンダーバーをつける
+    <br>上付にする：文字の直後に^ハット記号をつける`;
+    finalScore.style.display = "block";
+
+      document.getElementById("nextlevelButton").style.display = "block"; // 🔴 全問正解ならレベル選択画面を表示
+    }
 }
 
-//  カスタムテキスト入力時に上昇文字を更新    
-    inputTextInput.addEventListener('input', updateRisingText);
+//  次のレベルへのボタンクリック時 
+nextlevelButton.addEventListener('click', () => {
+  level++;
+  yarinaosiKaisu=1
+  quizuLevel(level);
+});
 
-//  発射ボタンクリック時にカスタムテキスト発射    
-    fireButton.addEventListener('click', fireinputText);
 
 //  次へのボタンクリック時 
     nextButton.addEventListener('click', () => {
-             
         timeLeft = 20; // 制限時間リセット
         inputTextInput.focus();
-        //  現在の問題インデックスを更新
-        currentQuestionIndex++;
-        const totalFallSteps = 200;//落下ステップ数
-        const fallDuration = 20000;//落下時間
+        currentQuestionIndex++;//  現在の問題インデックスを更新
         if (currentQuestionIndex < quizData.length) {
           loadQuestion(); //次の問題をロード
         } else {
         endGame()
         }
     });
+
 </script>
 </body>
 </html>
