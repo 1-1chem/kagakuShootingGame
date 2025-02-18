@@ -244,8 +244,8 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   text-align: center;
   border-radius: 10px;
-  pointer-events: auto; /* 🔴 クリックを許可 */
-  z-index: 1000; /* 🔴 他の要素より前面に表示 */
+  pointer-events: auto; /*  クリックを許可 */
+  z-index: 1000; /*  他の要素より前面に表示 */
 }
 
 #gameIntro h1 {
@@ -319,7 +319,6 @@
       <li>3回ミスするとやりなおし</li>
       <li>レベル1～3は元素記号</li>
       <li>レベル4～6はイオン式</li>
-      <li></li>
     </ul>
     <button id="startButton">ゲーム開始</button>
   </div>
@@ -485,7 +484,7 @@ let quizLevels = {
     const correctFormula = document.getElementById('correctFormula'); //正解
 //初期設定
     const totalFallSteps = 200;//落下ステップ数
-    const fallDuration = 10000;//落下時間
+    const fallDuration = 20000;//落下時間
     const fallStepDuration = fallDuration / totalFallSteps;//落下ステップ時間
     const maxFallHeight = 31; // 🔴 最大落下範囲を 31% に制限(発射文字と被らせないため)
     const maxRiseHeight = -50; // 🔴 最大上昇範囲を -50% に制限（上方向に動く文字が突き抜ける）
@@ -504,7 +503,7 @@ let quizLevels = {
     let risingAnimation;//上昇アニメーション
     fireButton.style.display = "none"; //発射ボタンを非表示
     let score = 0; // スコアの初期化
-    let timeLeft = 5; // 制限時間（秒）
+    let timeLeft = 20; // 制限時間（秒）
     let timer; // タイマー変数
     let timeOutCount = 0; // 時間切れの回数をカウント
     let maxLives = 3; //  最大ライフ数
@@ -718,7 +717,7 @@ function updateTotalScoreDisplay() {
 //タイマー開始関数  
 function startTimer() {
     timeoutMessage.style.display = "none"; // 「時間切れ」メッセージを非表示
-    timeLeft = 4; // 制限時間リセット
+    timeLeft = 20; // 制限時間リセット
     document.getElementById("scoreDisplay").textContent = `スコア: ${score}`;//スコアを表示
     document.getElementById("timerDisplay").textContent = `残時間: ${timeLeft}秒`; // 初期表示
     timer = setInterval(() => { // 1秒ごとに実行
